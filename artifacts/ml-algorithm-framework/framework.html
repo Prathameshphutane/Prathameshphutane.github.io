@@ -67,6 +67,11 @@
   .bar { display: inline-block; width: 4px; height: 16px; border-radius: 2px; vertical-align: -3px; margin-right: 10px; }
   .bar.s { background: var(--sup); } .bar.u { background: var(--uns); }
 
+  .leaders-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 22px 0 0; }
+  .leaders { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+  .leaders div { background: var(--ink); color: #fff; border-radius: 10px; padding: 12px 14px; font-size: 13.5px; }
+  .leaders span { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; opacity: .7; margin-bottom: 3px; }
+
   /* Cards */
   .group-label { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 22px 0 12px; }
   .group-label.sup { color: var(--sup); } .group-label.uns { color: var(--uns); }
@@ -117,11 +122,11 @@
 
   @media (max-width: 900px) {
     .head { grid-template-columns: 1fr; }
-    .cards, .insights, .method { grid-template-columns: 1fr 1fr; }
+    .cards, .insights, .method, .leaders { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 620px) {
     .poster { padding: 28px 16px 40px; }
-    .cards, .insights, .method, .guide { grid-template-columns: 1fr; }
+    .cards, .insights, .method, .guide, .leaders { grid-template-columns: 1fr; }
   }
   @media print {
     body { background: #fff; }
@@ -178,6 +183,13 @@
           <tr><td class="algo"><span class="bar u"></span>Diffusion Model</td><td></td><td><span class="dot full u"></span></td><td></td><td><span class="dot full u"></span></td><td class="out">New images from a text prompt</td></tr>
         </tbody>
       </table>
+    </div>
+    <p class="leaders-title">Most common choice in each domain today</p>
+    <div class="leaders">
+      <div><span>Tabular data</span><b>Tree ensembles (Random Forest, XGBoost)</b></div>
+      <div><span>Computer vision</span><b>CNNs</b></div>
+      <div><span>NLP</span><b>Transformers</b></div>
+      <div><span>Generative AI</span><b>Transformers, GANs and Diffusion Models</b></div>
     </div>
   </section>
 
@@ -248,7 +260,7 @@
       </article>
       <article class="card u">
         <h3>Transformer <em>(BERT, GPT)</em></h3>
-        <div class="chips"><span class="chip type u">Self-supervised</span><span class="chip">NLP</span><span class="chip">Generative AI</span><span class="chip minor">Vision</span></div>
+        <div class="chips"><span class="chip type u">Unsupervised (self-supervised)</span><span class="chip">NLP</span><span class="chip">Generative AI</span><span class="chip minor">Vision</span></div>
         <dl><dt>How it works</dt><dd>Uses attention so each word can weigh every other word in the text. It is pretrained on huge amounts of unlabeled text by predicting missing or next words, then often fine-tuned with labeled data.</dd>
         <dt>Real-world use</dt><dd>Chat assistants such as ChatGPT and Gemini; Google Translate; BERT improving Google Search results.</dd></dl>
       </article>
@@ -260,7 +272,7 @@
       </article>
       <article class="card u">
         <h3>Diffusion Model</h3>
-        <div class="chips"><span class="chip type u">Self-supervised</span><span class="chip">Generative AI</span><span class="chip">Vision</span></div>
+        <div class="chips"><span class="chip type u">Unsupervised (self-supervised)</span><span class="chip">Generative AI</span><span class="chip">Vision</span></div>
         <dl><dt>How it works</dt><dd>Learns to reverse a process that slowly adds noise to images. To generate, it starts from pure noise and removes it step by step, guided by a text prompt.</dd>
         <dt>Real-world use</dt><dd>Text-to-image tools such as Stable Diffusion, DALL&middot;E 3 and Midjourney.</dd></dl>
       </article>

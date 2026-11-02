@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Algorithm Framework | Prathamesh Phutane</title>
+<meta name="description" content="Portfolio artifact: a visual framework of twelve machine learning algorithms by learning type and application domain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  .crumbs { padding-top: 28px; font-size: 14px; color: var(--muted); }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .a-head { padding: 26px 0 36px; }
+  .a-head h1 { font-size: clamp(32px, 5vw, 48px); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+
+  .preview { padding: 0; overflow: hidden; }
+  .preview a { display: block; }
+  .preview img { width: 100%; max-height: 640px; object-fit: cover; object-position: top; border-bottom: 1px solid var(--line); }
+  .preview .bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 20px; }
+  .preview .bar span { color: var(--muted); font-size: 14px; }
+
+  .toc { position: sticky; top: 86px; font-size: 14px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px; border-left: 2px solid var(--line); }
+  .toc a:hover { color: var(--ink); border-left-color: var(--accent); }
+  .layout { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 56px 0 24px; }
+  article.write-up section { padding-bottom: 34px; margin-bottom: 34px; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+  article.write-up section:last-child { border-bottom: 0; }
+  article.write-up h2 { font-size: 25px; margin-bottom: 12px; }
+  article.write-up ol, article.write-up ul { padding-left: 22px; margin: 0 0 16px; }
+  article.write-up li { margin-bottom: 8px; }
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tool { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14.5px; }
+  .tool b { display: block; }
+  .tool span { color: var(--muted); }
+  .refs li { font-size: 14.5px; }
+  .callout { background: var(--accent-soft); border-radius: 12px; padding: 18px 20px; }
+  .callout p:last-child { margin: 0; }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding-top: 40px; }
+    .toc { display: none; }
+    .tool-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="../../"><span class="mono">PP</span>Prathamesh Phutane</a>
+    <ul>
+      <li><a href="../../#about">About</a></li>
+      <li><a href="../../#artifacts">Artifacts</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="crumbs"><a href="../../">Home</a> / <a href="../../#artifacts">Artifacts</a> / Machine Learning Algorithm Framework</div>
+
+  <header class="a-head">
+    <p class="eyebrow">Artifact 1 &middot; Infographic</p>
+    <h1>Machine Learning Algorithm Framework</h1>
+    <p class="lede">A visual reference that classifies twelve machine learning algorithms by learning type and application domain, shows how they build on one another, and helps readers choose the right one for a problem.</p>
+    <div class="meta">
+      <span class="pill">12 algorithms</span>
+      <span class="pill">Supervised and unsupervised</span>
+      <span class="pill">Tabular, vision, NLP, generative AI</span>
+    </div>
+  </header>
+
+  <div class="card preview">
+    <a href="framework.html"><img src="framework-preview.png" alt="Machine Learning Algorithm Framework infographic preview"></a>
+    <div class="bar">
+      <span>The full framework is interactive and works on any screen size.</span>
+      <div class="btn-row">
+        <a class="btn primary" href="framework.html">Open the framework</a>
+        <a class="btn" href="ML-Algorithm-Framework.pdf" download>Download PDF</a>
+        <a class="btn" href="ML-Algorithm-Framework.png" download>Download PNG</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sections">
+      <a href="#introduction">Introduction</a>
+      <a href="#description">Description</a>
+      <a href="#objective">Objective</a>
+      <a href="#process">Process</a>
+      <a href="#tools">Tools and Technologies</a>
+      <a href="#value">Value Proposition</a>
+      <a href="#unique">Unique Value</a>
+      <a href="#relevance">Relevance</a>
+      <a href="#references">References</a>
+    </nav>
+
+    <article class="write-up">
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <p>When I started learning about machine learning, one of the hardest parts was not understanding a single algorithm. It was seeing how all of them fit together. Names like Random Forest, K-means, Transformer and GAN show up everywhere, but it is not obvious which ones need labeled data, which kind of data they work on, or how a newer method relates to an older one.</p>
+        <p>This framework is my answer to that problem. It puts twelve widely used algorithms on one page and organizes them so a reader can quickly compare them and pick the right tool for a task.</p>
+      </section>
+
+      <section id="description">
+        <h2>Description</h2>
+        <p>The framework is an infographic built as a web page, with downloadable PDF and PNG versions. It is organized into five parts:</p>
+        <ol>
+          <li><strong>Algorithms at a Glance:</strong> a matrix of all twelve algorithms, grouped as supervised or unsupervised, with dots showing their primary and secondary domains across tabular data, computer vision, NLP and generative AI.</li>
+          <li><strong>How Each Algorithm Works:</strong> a card for every algorithm with its learning type, domains, a plain-language explanation and real-world examples.</li>
+          <li><strong>How the Algorithms Connect:</strong> a family tree that moves from classical machine learning to deep learning to generative AI and shows how methods build on each other, such as decision trees leading to Random Forest and Gradient Boosting.</li>
+          <li><strong>Choosing the Right Algorithm:</strong> a two-question decision guide based on whether labels exist and what kind of data or output is needed.</li>
+          <li><strong>How the Algorithms Were Classified:</strong> the criteria I used to assign each learning type and domain, so the classification can be checked.</li>
+        </ol>
+        <p>The algorithms covered are Linear Regression, Logistic Regression, Decision Tree, Random Forest, Gradient Boosting (XGBoost), K-Nearest Neighbors and Convolutional Neural Networks on the supervised side, and K-means, Principal Component Analysis, Transformers, Generative Adversarial Networks and Diffusion Models on the unsupervised and self-supervised side.</p>
+      </section>
+
+      <section id="objective">
+        <h2>Objective</h2>
+        <p>The goal was to create a clear and accurate reference that identifies and categorizes key machine learning algorithms, illustrates their main application domains, and gives practical examples of how each one is used. I also wanted to practice explaining technical ideas in a way that someone new to the field could follow.</p>
+      </section>
+
+      <section id="process">
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Research.</strong> I reviewed the course resources on the differences between AI, machine learning, deep learning and generative AI, then read the original papers and official documentation for the more advanced algorithms to make sure my explanations were accurate.</li>
+          <li><strong>Selecting the algorithms.</strong> I chose twelve algorithms so that every domain had strong coverage and so the list included both classic methods and the newer models behind generative AI.</li>
+          <li><strong>Setting classification rules.</strong> Before placing anything, I defined clear criteria: an algorithm is supervised if training needs labeled answers, and its domain depends on the type of data it is mainly built for. I separated primary uses from secondary ones so the framework would not overstate where an algorithm is used.</li>
+          <li><strong>Handling edge cases.</strong> Transformers and Diffusion Models do not fit neatly into supervised or unsupervised, because they create their own training targets from unlabeled data. I grouped them as self-supervised under unsupervised learning and explained why on the framework.</li>
+          <li><strong>Mapping relationships.</strong> I sketched how the algorithms build on each other and arranged them into three columns that follow the progression from machine learning to deep learning to generative AI.</li>
+          <li><strong>Design and build.</strong> I used two consistent colors for the learning types, filled and open dots for domain strength, and a numbered layout that reads from overview to detail. I built it in HTML, CSS and SVG so it stays sharp on any screen and can be exported as a PDF.</li>
+          <li><strong>Review.</strong> I checked every classification and example against my sources, tested the layout on desktop and mobile, and fixed overlapping labels in the diagram.</li>
+        </ol>
+      </section>
+
+      <section id="tools">
+        <h2>Tools and Technologies Used</h2>
+        <div class="tool-grid">
+          <div class="tool"><b>HTML5 and CSS3</b><span>Layout, typography and responsive design</span></div>
+          <div class="tool"><b>SVG</b><span>The algorithm family tree diagram</span></div>
+          <div class="tool"><b>GitHub and GitHub Pages</b><span>Version control and hosting</span></div>
+          <div class="tool"><b>Google Chrome</b><span>Testing and exporting the PDF and PNG versions</span></div>
+          <div class="tool"><b>Google Fonts</b><span>Fraunces and Inter typefaces</span></div>
+          <div class="tool"><b>Course resources and documentation</b><span>Research and fact checking</span></div>
+        </div>
+      </section>
+
+      <section id="value">
+        <h2>Value Proposition</h2>
+        <p>This artifact shows that I can take a large, technical subject and organize it into something accurate, structured and easy to use. Classifying algorithms correctly requires understanding how each one learns, not just what it is called. Presenting that clearly to a non-expert audience is a skill I use every day when turning complex tax rules into system logic at work.</p>
+      </section>
+
+      <section id="unique">
+        <h2>Unique Value</h2>
+        <p>Most algorithm cheat sheets are simple lists. This framework goes further in three ways. It separates primary from secondary domains instead of treating every use as equal. It shows the relationships between algorithms, such as the fact that a single neuron is essentially logistic regression. And it ends with a practical decision guide, so the reader leaves knowing which algorithm to try next, not just what each one is.</p>
+      </section>
+
+      <section id="relevance">
+        <h2>Relevance</h2>
+        <p>Choosing the wrong algorithm is one of the most common and costly mistakes in machine learning projects. Generative AI gets most of the attention, but many business problems are still solved best with classical methods like gradient boosting on tabular data. This framework helps students, analysts and engineers match the method to the problem, and it will serve as my own reference throughout the AI program and in future projects.</p>
+        <div class="callout"><p><strong>Key takeaway:</strong> tabular data is still dominated by tree-based models, images by CNNs, and language by Transformers, while generative AI is built mostly on unsupervised and self-supervised learning at very large scale.</p></div>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ul class="refs">
+          <li>Breiman, L. (2001). Random forests. <em>Machine Learning, 45</em>(1), 5 to 32. <a href="https://doi.org/10.1023/A:1010933404324">https://doi.org/10.1023/A:1010933404324</a></li>
+          <li>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. <em>Proceedings of the 22nd ACM SIGKDD Conference</em>. <a href="https://arxiv.org/abs/1603.02754">https://arxiv.org/abs/1603.02754</a></li>
+          <li>Goodfellow, I., et al. (2014). Generative adversarial nets. <em>Advances in Neural Information Processing Systems, 27</em>. <a href="https://arxiv.org/abs/1406.2661">https://arxiv.org/abs/1406.2661</a></li>
+          <li>Ho, J., Jain, A., &amp; Abbeel, P. (2020). Denoising diffusion probabilistic models. <em>Advances in Neural Information Processing Systems, 33</em>. <a href="https://arxiv.org/abs/2006.11239">https://arxiv.org/abs/2006.11239</a></li>
+          <li>LeCun, Y., Bottou, L., Bengio, Y., &amp; Haffner, P. (1998). Gradient-based learning applied to document recognition. <em>Proceedings of the IEEE, 86</em>(11), 2278 to 2324.</li>
+          <li>Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. <em>Journal of Machine Learning Research, 12</em>, 2825 to 2830. <a href="https://scikit-learn.org/stable/user_guide.html">https://scikit-learn.org/stable/user_guide.html</a></li>
+          <li>Vaswani, A., et al. (2017). Attention is all you need. <em>Advances in Neural Information Processing Systems, 30</em>. <a href="https://arxiv.org/abs/1706.03762">https://arxiv.org/abs/1706.03762</a></li>
+          <li>Course resource: <em>Unraveling the Differences Between AI, ML, DL, and GenAI</em>. Indiana Wesleyan University.</li>
+          <li>Course resource: <em>What are the differences between AI, ML, DL, and Gen AI?</em> Indiana Wesleyan University.</li>
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Prathamesh Phutane</span>
+    <a href="../../#artifacts">Back to all artifacts</a>
+  </div>
+</footer>
+
+</body>
+</html>

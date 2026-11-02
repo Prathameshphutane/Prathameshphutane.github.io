@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning Algorithm Framework | Prathamesh Phutane</title>
+<meta name="description" content="A visual framework of 12 machine learning algorithms classified by learning type and application domain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --ink: #1c1f26;
+    --muted: #5b6170;
+    --line: #e3e1da;
+    --sup: #2f5d8a;
+    --sup-soft: #e6eef7;
+    --uns: #b05a1e;
+    --uns-soft: #f8ece1;
+    --concept: #8a8f9c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 "Inter", system-ui, sans-serif; }
+  .poster { max-width: 1180px; margin: 0 auto; padding: 40px 20px 56px; }
+  .back { display: inline-block; font-size: 14px; color: var(--muted); text-decoration: none; margin-bottom: 18px; }
+  .back:hover { color: var(--ink); }
+
+  /* Header */
+  .head { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: end; padding-bottom: 28px; border-bottom: 2px solid var(--ink); }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  h1 { font-family: "Fraunces", serif; font-size: clamp(34px, 5vw, 52px); line-height: 1.02; margin: 0 0 12px; font-weight: 700; }
+  .sub { font-size: 17px; color: var(--muted); margin: 0; max-width: 560px; }
+  .legend { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font-size: 13.5px; }
+  .legend h4 { margin: 0 0 10px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .legend-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .sw { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+  .sw.sup { background: var(--sup); }
+  .sw.uns { background: var(--uns); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; display: inline-block; }
+  .dot.full { background: var(--ink); }
+  .dot.part { border: 2px solid var(--ink); }
+
+  /* Section headings */
+  .sec { margin-top: 44px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .num { font-family: "Fraunces", serif; font-size: 15px; font-weight: 600; color: var(--muted); }
+  h2 { font-family: "Fraunces", serif; font-size: 27px; margin: 0; font-weight: 600; }
+  .sec-intro { color: var(--muted); margin: 0 0 20px; max-width: 760px; }
+
+  /* Matrix */
+  .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th, td { padding: 11px 14px; text-align: center; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; background: #fbfaf7; }
+  th.algo, td.algo { text-align: left; }
+  td.algo { font-weight: 600; }
+  td.out { color: var(--muted); font-size: 13.5px; text-align: left; }
+  tr.group td { background: #fbfaf7; text-align: left; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 8px 14px; }
+  tr.group.sup td { color: var(--sup); }
+  tr.group.uns td { color: var(--uns); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td .dot.full.s { background: var(--sup); }
+  td .dot.part.s { border-color: var(--sup); }
+  td .dot.full.u { background: var(--uns); }
+  td .dot.part.u { border-color: var(--uns); }
+  .bar { display: inline-block; width: 4px; height: 16px; border-radius: 2px; vertical-align: -3px; margin-right: 10px; }
+  .bar.s { background: var(--sup); } .bar.u { background: var(--uns); }
+
+  /* Cards */
+  .group-label { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin: 22px 0 12px; }
+  .group-label.sup { color: var(--sup); } .group-label.uns { color: var(--uns); }
+  .group-label span.rule { flex: 1; height: 1px; background: var(--line); }
+  .group-label small { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--muted); font-size: 13.5px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--sup); border-radius: 10px; padding: 16px 18px 18px; }
+  .card.u { border-top-color: var(--uns); }
+  .card h3 { font-size: 16.5px; margin: 0 0 8px; line-height: 1.3; }
+  .card h3 em { font-style: normal; color: var(--muted); font-weight: 500; font-size: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .chip { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 5px; background: #f1efe9; color: var(--ink); }
+  .chip.type.s { background: var(--sup-soft); color: var(--sup); }
+  .chip.type.u { background: var(--uns-soft); color: var(--uns); }
+  .chip.minor { background: transparent; border: 1px dashed #c9c6bd; color: var(--muted); }
+  .card dl { margin: 0; }
+  .card dt { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .card dd { margin: 3px 0 0; font-size: 14px; }
+
+  /* Diagram */
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .insights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  .insight { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14px; }
+  .insight b { display: block; margin-bottom: 4px; font-size: 14.5px; }
+
+  /* Decision guide */
+  .guide { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .q { background: var(--ink); color: #fff; border-radius: 12px; padding: 16px 20px; text-align: center; grid-column: 1 / -1; font-weight: 600; font-size: 16px; }
+  .q span { display: block; font-weight: 400; font-size: 13.5px; opacity: .75; margin-top: 2px; }
+  .branch { border-radius: 12px; padding: 18px 20px; border: 1px solid var(--line); background: var(--surface); }
+  .branch.s { border-top: 4px solid var(--sup); }
+  .branch.u { border-top: 4px solid var(--uns); }
+  .branch h3 { margin: 0 0 4px; font-size: 16px; }
+  .branch .ans { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .branch.s .ans { color: var(--sup); } .branch.u .ans { color: var(--uns); }
+  .branch p.ask { margin: 10px 0 8px; font-weight: 600; font-size: 14px; }
+  .path { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; font-size: 14px; padding: 8px 0; border-top: 1px dashed var(--line); }
+  .path .goal { color: var(--muted); }
+  .path .pick { font-weight: 600; text-align: right; }
+
+  /* Method box */
+  .method { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .method div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14px; }
+  .method b { display: block; margin-bottom: 4px; }
+
+  .foot { margin-top: 44px; padding-top: 18px; border-top: 2px solid var(--ink); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--muted); }
+
+  @media (max-width: 900px) {
+    .head { grid-template-columns: 1fr; }
+    .cards, .insights, .method { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .poster { padding: 28px 16px 40px; }
+    .cards, .insights, .method, .guide { grid-template-columns: 1fr; }
+  }
+  @media print {
+    body { background: #fff; }
+    .back { display: none; }
+    .card, .insight, .branch, .method div, .table-wrap, .diagram { break-inside: avoid; }
+    .sec { break-inside: auto; }
+    .guide, .method { break-inside: avoid; }
+    .sec-head, .sec-intro { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <a class="back" href="./">&larr; Back to the artifact page</a>
+
+  <header class="head">
+    <div>
+      <p class="kicker">Visual Framework &middot; Prathamesh Phutane</p>
+      <h1>Machine Learning Algorithm Framework</h1>
+      <p class="sub">Twelve widely used algorithms, organized by how they learn and where they are applied: tabular data, computer vision, natural language processing and generative AI.</p>
+    </div>
+    <div class="legend">
+      <h4>How to read this framework</h4>
+      <div class="legend-row"><span class="sw sup"></span><span><b>Supervised:</b> learns from examples that already have the correct answer (labels)</span></div>
+      <div class="legend-row"><span class="sw uns"></span><span><b>Unsupervised:</b> finds structure in data without labels (includes self-supervised learning)</span></div>
+      <div class="legend-row"><span class="dot full"></span><span><b>Primary domain:</b> where the algorithm is most commonly used</span></div>
+      <div class="legend-row"><span class="dot part"></span><span><b>Also used:</b> a real but less common application</span></div>
+    </div>
+  </header>
+
+  <!-- 1. Matrix -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">01</span><h2>Algorithms at a Glance</h2></div>
+    <p class="sec-intro">Each row is one algorithm. The dots show which domains it serves, so it is easy to see that tabular data is dominated by classical methods while vision, language and generative AI rely on deep learning.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th class="algo">Algorithm</th><th>Tabular Data</th><th>Computer Vision</th><th>NLP</th><th>Generative AI</th><th class="algo">Typical output</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group sup"><td colspan="6">Supervised learning</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Linear Regression</td><td><span class="dot full s"></span></td><td></td><td></td><td></td><td class="out">A number</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Logistic Regression</td><td><span class="dot full s"></span></td><td></td><td><span class="dot part s"></span></td><td></td><td class="out">A probability and a class</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Decision Tree</td><td><span class="dot full s"></span></td><td></td><td></td><td></td><td class="out">A class or number, with readable rules</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Random Forest</td><td><span class="dot full s"></span></td><td></td><td></td><td></td><td class="out">A class or number, by majority vote</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Gradient Boosting (XGBoost)</td><td><span class="dot full s"></span></td><td></td><td></td><td></td><td class="out">A class, number or ranking score</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>K-Nearest Neighbors</td><td><span class="dot full s"></span></td><td><span class="dot part s"></span></td><td></td><td></td><td class="out">The label of the closest examples</td></tr>
+          <tr><td class="algo"><span class="bar s"></span>Convolutional Neural Network</td><td></td><td><span class="dot full s"></span></td><td></td><td><span class="dot part s"></span></td><td class="out">An image label, location or mask</td></tr>
+          <tr class="group uns"><td colspan="6">Unsupervised and self-supervised learning</td></tr>
+          <tr><td class="algo"><span class="bar u"></span>K-means Clustering</td><td><span class="dot full u"></span></td><td><span class="dot part u"></span></td><td></td><td></td><td class="out">Group assignments</td></tr>
+          <tr><td class="algo"><span class="bar u"></span>Principal Component Analysis</td><td><span class="dot full u"></span></td><td><span class="dot part u"></span></td><td></td><td></td><td class="out">Fewer, combined features</td></tr>
+          <tr><td class="algo"><span class="bar u"></span>Transformer (BERT, GPT)</td><td></td><td><span class="dot part u"></span></td><td><span class="dot full u"></span></td><td><span class="dot full u"></span></td><td class="out">Text understanding or generated text</td></tr>
+          <tr><td class="algo"><span class="bar u"></span>Generative Adversarial Network</td><td></td><td><span class="dot full u"></span></td><td></td><td><span class="dot full u"></span></td><td class="out">New realistic images</td></tr>
+          <tr><td class="algo"><span class="bar u"></span>Diffusion Model</td><td></td><td><span class="dot full u"></span></td><td></td><td><span class="dot full u"></span></td><td class="out">New images from a text prompt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. Cards -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">02</span><h2>How Each Algorithm Works</h2></div>
+    <p class="sec-intro">A short explanation of each algorithm, with real-world examples of where it is used today.</p>
+
+    <div class="group-label sup">Supervised <small>learns from labeled examples</small><span class="rule"></span></div>
+    <div class="cards">
+      <article class="card">
+        <h3>Linear Regression</h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span></div>
+        <dl><dt>How it works</dt><dd>Fits the straight line (or flat plane) that best matches the data by minimizing the squared gap between predicted and actual values.</dd>
+        <dt>Real-world use</dt><dd>Estimating home prices from size and location; forecasting monthly sales.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>Logistic Regression</h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span><span class="chip minor">NLP</span></div>
+        <dl><dt>How it works</dt><dd>Adds up weighted features, then passes the total through an S-shaped sigmoid curve to produce a probability between 0 and 1.</dd>
+        <dt>Real-world use</dt><dd>Predicting whether a borrower will default; filtering spam emails based on word counts.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>Decision Tree</h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span></div>
+        <dl><dt>How it works</dt><dd>Asks a series of yes or no questions about the features, choosing each split to make the resulting groups as pure as possible, until it reaches a final answer.</dd>
+        <dt>Real-world use</dt><dd>Loan approval rules that auditors can read; patient triage checklists.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>Random Forest</h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span></div>
+        <dl><dt>How it works</dt><dd>Trains hundreds of decision trees, each on a random sample of rows and features, then lets them vote. Combining many trees cancels out individual mistakes.</dd>
+        <dt>Real-world use</dt><dd>Credit card fraud detection; predicting which customers will cancel a subscription.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>Gradient Boosting <em>(XGBoost)</em></h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span></div>
+        <dl><dt>How it works</dt><dd>Builds small trees one after another, with each new tree focusing on the errors that the previous trees made.</dd>
+        <dt>Real-world use</dt><dd>Credit scoring at banks; ranking search and ad results; a frequent winner of data science competitions on tabular data.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>K-Nearest Neighbors <em>(KNN)</em></h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Tabular</span><span class="chip minor">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Stores the training data and labels a new item by a majority vote among the K most similar examples, measured by distance.</dd>
+        <dt>Real-world use</dt><dd>"Customers like you also bought" recommendations; recognizing handwritten digits.</dd></dl>
+      </article>
+      <article class="card">
+        <h3>Convolutional Neural Network <em>(CNN)</em></h3>
+        <div class="chips"><span class="chip type s">Supervised</span><span class="chip">Vision</span><span class="chip minor">Generative AI</span></div>
+        <dl><dt>How it works</dt><dd>Slides small learned filters across an image to detect edges, then shapes, then whole objects, one layer at a time.</dd>
+        <dt>Real-world use</dt><dd>Detecting tumors in medical scans; face unlock on phones; spotting defects on assembly lines.</dd></dl>
+      </article>
+    </div>
+
+    <div class="group-label uns">Unsupervised <small>finds structure without labels</small><span class="rule"></span></div>
+    <div class="cards">
+      <article class="card u">
+        <h3>K-means Clustering</h3>
+        <div class="chips"><span class="chip type u">Unsupervised</span><span class="chip">Tabular</span><span class="chip minor">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Places K center points, assigns every item to its nearest center, moves each center to the middle of its group, and repeats until the groups stop changing.</dd>
+        <dt>Real-world use</dt><dd>Segmenting customers for targeted marketing; reducing the number of colors in an image.</dd></dl>
+      </article>
+      <article class="card u">
+        <h3>Principal Component Analysis <em>(PCA)</em></h3>
+        <div class="chips"><span class="chip type u">Unsupervised</span><span class="chip">Tabular</span><span class="chip minor">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Finds the few directions that capture the most variation in the data and describes every item using only those, shrinking many features into a handful.</dd>
+        <dt>Real-world use</dt><dd>Compressing hundreds of sensor readings before modeling; early face recognition systems (eigenfaces).</dd></dl>
+      </article>
+      <article class="card u">
+        <h3>Transformer <em>(BERT, GPT)</em></h3>
+        <div class="chips"><span class="chip type u">Self-supervised</span><span class="chip">NLP</span><span class="chip">Generative AI</span><span class="chip minor">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Uses attention so each word can weigh every other word in the text. It is pretrained on huge amounts of unlabeled text by predicting missing or next words, then often fine-tuned with labeled data.</dd>
+        <dt>Real-world use</dt><dd>Chat assistants such as ChatGPT and Gemini; Google Translate; BERT improving Google Search results.</dd></dl>
+      </article>
+      <article class="card u">
+        <h3>Generative Adversarial Network <em>(GAN)</em></h3>
+        <div class="chips"><span class="chip type u">Unsupervised</span><span class="chip">Generative AI</span><span class="chip">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Two networks compete. A generator creates fake samples, a discriminator tries to catch them, and both improve until the fakes look real.</dd>
+        <dt>Real-world use</dt><dd>Photorealistic faces (StyleGAN); upscaling low-resolution photos; creating synthetic training data.</dd></dl>
+      </article>
+      <article class="card u">
+        <h3>Diffusion Model</h3>
+        <div class="chips"><span class="chip type u">Self-supervised</span><span class="chip">Generative AI</span><span class="chip">Vision</span></div>
+        <dl><dt>How it works</dt><dd>Learns to reverse a process that slowly adds noise to images. To generate, it starts from pure noise and removes it step by step, guided by a text prompt.</dd>
+        <dt>Real-world use</dt><dd>Text-to-image tools such as Stable Diffusion, DALL&middot;E 3 and Midjourney.</dd></dl>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3. Relationships -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">03</span><h2>How the Algorithms Connect</h2></div>
+    <p class="sec-intro">These algorithms are not isolated. Many newer methods are built directly on older ones. The columns follow the familiar progression from machine learning to deep learning to generative AI.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 1150 500" role="img" aria-label="Family tree showing how the twelve algorithms build on one another, from classical machine learning to deep learning to generative AI">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5b6170"/></marker>
+        </defs>
+        <style>
+          .col { font: 700 12px Inter, sans-serif; letter-spacing: .1em; fill: #5b6170; }
+          .nm { font: 600 13.5px Inter, sans-serif; fill: #1c1f26; }
+          .lb { font: 500 11.5px Inter, sans-serif; fill: #5b6170; }
+          .e { fill: none; stroke: #5b6170; stroke-width: 1.4; }
+          .bs { fill: #e6eef7; stroke: #2f5d8a; stroke-width: 1.5; }
+          .bu { fill: #f8ece1; stroke: #b05a1e; stroke-width: 1.5; }
+          .bc { fill: #ffffff; stroke: #8a8f9c; stroke-width: 1.3; stroke-dasharray: 5 4; }
+        </style>
+
+        <!-- column labels and dividers -->
+        <text class="col" x="250" y="26" text-anchor="middle">CLASSICAL MACHINE LEARNING</text>
+        <text class="col" x="680" y="26" text-anchor="middle">DEEP LEARNING</text>
+        <text class="col" x="1010" y="26" text-anchor="middle">GENERATIVE AI</text>
+        <line x1="515" y1="12" x2="515" y2="488" stroke="#e3e1da" stroke-width="1.5"/>
+        <line x1="880" y1="12" x2="880" y2="488" stroke="#e3e1da" stroke-width="1.5"/>
+
+        <!-- edges -->
+        <path class="e" d="M210 80 H286" marker-end="url(#ah)"/>
+        <text class="lb" x="248" y="68" text-anchor="middle">add sigmoid</text>
+
+        <path class="e" d="M460 80 H556" marker-end="url(#ah)"/>
+        <text class="lb" x="508" y="68" text-anchor="middle">stack in layers</text>
+
+        <path class="e" d="M210 195 C 250 195, 250 160, 286 160" marker-end="url(#ah)"/>
+        <text class="lb" x="245" y="150" text-anchor="middle">bagging</text>
+        <path class="e" d="M210 195 C 250 195, 250 232, 286 232" marker-end="url(#ah)"/>
+        <text class="lb" x="245" y="250" text-anchor="middle">boosting</text>
+
+        <path d="M214 330 H286" fill="none" stroke="#5b6170" stroke-width="1.4" stroke-dasharray="4 4" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text class="lb" x="250" y="370" text-anchor="middle">both use distance</text>
+
+        <path class="e" d="M720 100 V176" marker-end="url(#ah)"/>
+        <text class="lb" x="730" y="142">+ filters</text>
+        <path class="e" d="M600 100 V306" marker-end="url(#ah)"/>
+        <text class="lb" x="590" y="230" text-anchor="end">+ attention</text>
+
+        <path class="e" d="M800 192 C 860 192, 860 165, 916 165" marker-end="url(#ah)"/>
+        <path class="e" d="M800 208 C 860 208, 860 245, 916 245" marker-end="url(#ah)"/>
+        <text class="lb" x="858" y="150" text-anchor="middle">generator</text>
+        <text class="lb" x="858" y="268" text-anchor="middle">denoiser</text>
+
+        <path class="e" d="M760 330 H916" marker-end="url(#ah)"/>
+        <text class="lb" x="838" y="318" text-anchor="middle">scale up</text>
+
+        <!-- classical nodes -->
+        <rect class="bs" x="40" y="60" width="170" height="40" rx="8"/><text class="nm" x="125" y="85" text-anchor="middle">Linear Regression</text>
+        <rect class="bs" x="290" y="60" width="170" height="40" rx="8"/><text class="nm" x="375" y="85" text-anchor="middle">Logistic Regression</text>
+        <rect class="bs" x="40" y="175" width="170" height="40" rx="8"/><text class="nm" x="125" y="200" text-anchor="middle">Decision Tree</text>
+        <rect class="bs" x="290" y="140" width="170" height="40" rx="8"/><text class="nm" x="375" y="165" text-anchor="middle">Random Forest</text>
+        <rect class="bs" x="290" y="212" width="170" height="40" rx="8"/><text class="nm" x="375" y="237" text-anchor="middle">Gradient Boosting</text>
+        <rect class="bs" x="40" y="310" width="170" height="40" rx="8"/><text class="nm" x="125" y="335" text-anchor="middle">K-Nearest Neighbors</text>
+        <rect class="bu" x="290" y="310" width="170" height="40" rx="8"/><text class="nm" x="375" y="335" text-anchor="middle">K-means</text>
+        <rect class="bu" x="165" y="410" width="170" height="40" rx="8"/><text class="nm" x="250" y="435" text-anchor="middle">PCA</text>
+        <text class="lb" x="250" y="470" text-anchor="middle">compresses features before other models</text>
+
+        <!-- deep learning nodes -->
+        <rect class="bc" x="560" y="60" width="240" height="40" rx="8"/><text class="nm" x="680" y="85" text-anchor="middle">Neural Network (concept)</text>
+        <rect class="bs" x="640" y="180" width="160" height="40" rx="8"/><text class="nm" x="720" y="205" text-anchor="middle">CNN</text>
+        <rect class="bu" x="560" y="310" width="200" height="40" rx="8"/><text class="nm" x="660" y="335" text-anchor="middle">Transformer</text>
+
+        <!-- generative nodes -->
+        <rect class="bu" x="920" y="145" width="180" height="40" rx="8"/><text class="nm" x="1010" y="170" text-anchor="middle">GAN</text>
+        <rect class="bu" x="920" y="225" width="180" height="40" rx="8"/><text class="nm" x="1010" y="250" text-anchor="middle">Diffusion Model</text>
+        <rect class="bc" x="920" y="310" width="180" height="40" rx="8"/><text class="nm" x="1010" y="335" text-anchor="middle">LLMs (concept)</text>
+
+        <!-- legend -->
+        <rect class="bs" x="580" y="420" width="16" height="16" rx="4"/><text class="lb" x="604" y="433">Supervised</text>
+        <rect class="bu" x="690" y="420" width="16" height="16" rx="4"/><text class="lb" x="714" y="433">Unsupervised</text>
+        <rect class="bc" x="810" y="420" width="16" height="16" rx="4"/><text class="lb" x="834" y="433">Related concept, not one of the 12</text>
+      </svg>
+    </div>
+    <div class="insights">
+      <div class="insight"><b>One neuron is a logistic regression.</b>A neural network stacks many of these units in layers. Adding filters creates a CNN for images, and adding attention creates a Transformer for language.</div>
+      <div class="insight"><b>Trees become teams.</b>Random Forest averages many independent trees (bagging), while Gradient Boosting trains trees in sequence so each one fixes earlier errors (boosting).</div>
+      <div class="insight"><b>Similar names, different learning.</b>KNN and K-means both measure distance, but KNN needs labels to classify, while K-means groups unlabeled data on its own.</div>
+    </div>
+  </section>
+
+  <!-- 4. Decision guide -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">04</span><h2>Choosing the Right Algorithm</h2></div>
+    <p class="sec-intro">The same two questions used to classify the algorithms in this framework can guide which one to use for a real problem.</p>
+    <div class="guide">
+      <div class="q">Question 1: Do you have labeled examples?<span>Labeled means each example already has the correct answer, such as "fraud" or "not fraud."</span></div>
+      <div class="branch s">
+        <div class="ans">Yes &rarr; Supervised</div>
+        <p class="ask">Question 2: What kind of data, and what do you need?</p>
+        <div class="path"><span class="goal">Table, predict a number</span><span class="pick">Linear Regression</span></div>
+        <div class="path"><span class="goal">Table, explainable yes or no</span><span class="pick">Logistic Regression, Decision Tree</span></div>
+        <div class="path"><span class="goal">Table, highest accuracy</span><span class="pick">Random Forest, XGBoost</span></div>
+        <div class="path"><span class="goal">Find similar examples</span><span class="pick">KNN</span></div>
+        <div class="path"><span class="goal">Images</span><span class="pick">CNN</span></div>
+        <div class="path"><span class="goal">Text classification</span><span class="pick">Fine-tuned Transformer</span></div>
+      </div>
+      <div class="branch u">
+        <div class="ans">No &rarr; Unsupervised</div>
+        <p class="ask">Question 2: What is the goal?</p>
+        <div class="path"><span class="goal">Discover natural groups</span><span class="pick">K-means</span></div>
+        <div class="path"><span class="goal">Simplify many features</span><span class="pick">PCA</span></div>
+        <div class="path"><span class="goal">Generate new text</span><span class="pick">Transformer (LLM)</span></div>
+        <div class="path"><span class="goal">Generate realistic images</span><span class="pick">GAN</span></div>
+        <div class="path"><span class="goal">Generate images from a prompt</span><span class="pick">Diffusion Model</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Method -->
+  <section class="sec">
+    <div class="sec-head"><span class="num">05</span><h2>How the Algorithms Were Classified</h2></div>
+    <div class="method">
+      <div><b>Learning type</b>An algorithm is supervised if training requires labeled answers. It is unsupervised if it learns patterns from unlabeled data. Self-supervised models create their own training targets from raw data, so they are grouped with unsupervised learning.</div>
+      <div><b>Application domain</b>Domains are based on the type of input data the algorithm is mainly built for: rows and columns (tabular), images (vision), text (NLP), or creating new content (generative AI).</div>
+      <div><b>Primary versus secondary</b>A filled dot marks the domain where the algorithm is standard practice today. An open dot marks a real but less common use, such as K-means for compressing image colors.</div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Machine Learning Algorithm Framework &middot; Prathamesh Phutane &middot; 2026</span>
+    <span>M.S. in Artificial Intelligence, Indiana Wesleyan University</span>
+  </footer>
+</div>
+</body>
+</html>

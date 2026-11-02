@@ -6,87 +6,66 @@
 <title>Prathamesh Phutane | Portfolio</title>
 <meta name="description" content="Professional portfolio of Prathamesh Phutane, software engineer and M.S. in Artificial Intelligence student.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 <style>
-  :root {
-    --bg: #f7f6f2;
-    --surface: #ffffff;
-    --ink: #1c1f26;
-    --muted: #5b6170;
-    --line: #e3e1da;
-    --accent: #2f5d8a;
-    --accent-soft: #e8eff6;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font: 16px/1.65 "Inter", system-ui, sans-serif;
-  }
-  a { color: var(--accent); }
-  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  .hero { padding: 76px 0 64px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 48px; align-items: center; }
+  .profile { text-align: left; }
+  .profile .avatar { width: 76px; height: 76px; border-radius: 18px; background: linear-gradient(135deg, var(--accent), var(--warm)); color: #fff; display: grid; place-items: center; font: 600 28px "Fraunces", serif; margin-bottom: 16px; }
+  .profile h3 { font-size: 19px; margin-bottom: 2px; }
+  .profile .role { color: var(--muted); font-size: 14.5px; margin-bottom: 18px; }
+  .facts { list-style: none; padding: 0; margin: 0; font-size: 14.5px; }
+  .facts li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .facts span { color: var(--muted); }
+  .facts b { font-weight: 600; text-align: right; }
 
-  nav { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 10; }
-  nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 60px; }
-  nav .brand { font-family: "Fraunces", serif; font-weight: 600; font-size: 18px; color: var(--ink); text-decoration: none; }
-  nav ul { list-style: none; display: flex; gap: 22px; margin: 0; padding: 0; }
-  nav ul a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; }
-  nav ul a:hover { color: var(--ink); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+  .stat .n { font-family: "Fraunces", serif; font-size: 36px; font-weight: 600; color: var(--accent); line-height: 1; margin-bottom: 10px; }
+  .stat p { color: var(--muted); font-size: 14.5px; margin: 0; }
 
-  header.hero { padding: 72px 0 56px; }
-  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
-  h1 { font-family: "Fraunces", serif; font-weight: 600; font-size: clamp(36px, 6vw, 56px); line-height: 1.08; margin: 0 0 18px; }
-  .lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 0 0 28px; }
-  .meta { display: flex; flex-wrap: wrap; gap: 10px; }
-  .pill { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--muted); }
-
-  section { padding: 48px 0; border-top: 1px solid var(--line); }
-  h2 { font-family: "Fraunces", serif; font-weight: 600; font-size: 28px; margin: 0 0 20px; }
-  h3 { font-size: 17px; margin: 0 0 6px; }
-  p { margin: 0 0 16px; }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .stat { font-family: "Fraunces", serif; font-size: 34px; font-weight: 600; color: var(--accent); line-height: 1; margin-bottom: 8px; }
-  .card p { color: var(--muted); margin: 0; font-size: 15px; }
-
-  .value { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 24px 26px; font-size: 18px; margin-bottom: 24px; }
+  .value { border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 14px 14px 0; padding: 26px 28px; font-size: 19px; line-height: 1.55; margin-bottom: 32px; }
   .value p { margin: 0; }
-
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tag { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 5px 11px; font-size: 14px; }
+  .pillars h3 { font-size: 16px; }
+  .pillars p { color: var(--muted); font-size: 14.5px; margin: 0; }
+  .pillars .icon { width: 36px; height: 36px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-weight: 700; margin-bottom: 14px; font-size: 15px; }
 
   .edu { list-style: none; padding: 0; margin: 0; }
-  .edu li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .edu li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
   .edu li:last-child { border-bottom: 0; }
-  .edu span { color: var(--muted); font-size: 15px; }
+  .edu span { color: var(--muted); font-size: 15px; text-align: right; }
 
-  .artifacts { display: grid; gap: 16px; }
-  .artifact { display: flex; justify-content: space-between; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
-  .artifact .status { font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap; }
-  .artifact.soon { opacity: .75; }
+  .artifact-card { display: grid; grid-template-columns: 300px 1fr; gap: 0; padding: 0; overflow: hidden; text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s; }
+  .artifact-card:hover { transform: translateY(-2px); }
+  .artifact-card .thumb { background: var(--surface-2); border-right: 1px solid var(--line); overflow: hidden; }
+  .artifact-card .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  .artifact-card .body { padding: 26px 28px; }
+  .artifact-card .no { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .artifact-card h3 { font-family: "Fraunces", serif; font-size: 22px; font-weight: 600; margin-bottom: 10px; }
+  .artifact-card p { color: var(--muted); font-size: 15px; }
+  .artifact-card .go { font-weight: 600; color: var(--accent); font-size: 15px; }
+  .slot { border: 1.5px dashed var(--line); border-radius: 14px; padding: 22px; color: var(--muted); font-size: 14.5px; text-align: center; margin-top: 18px; }
 
-  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
-
-  @media (max-width: 640px) {
-    nav ul { gap: 14px; }
-    nav ul li:nth-child(2) { display: none; }
-    .grid-2 { grid-template-columns: 1fr; }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding: 52px 0 44px; gap: 32px; }
+    .stats { grid-template-columns: 1fr; }
+    .artifact-card { grid-template-columns: 1fr; }
+    .artifact-card .thumb { height: 200px; border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+  @media (max-width: 560px) {
+    nav.top ul li.hide-sm { display: none; }
     .edu li { flex-direction: column; gap: 2px; }
-    header.hero { padding: 48px 0 40px; }
+    .edu span { text-align: left; }
   }
 </style>
 </head>
 <body>
 
-<nav>
+<nav class="top">
   <div class="wrap">
-    <a class="brand" href="#">Prathamesh Phutane</a>
+    <a class="brand" href="#"><span class="mono">PP</span>Prathamesh Phutane</a>
     <ul>
       <li><a href="#about">About</a></li>
-      <li><a href="#value">Value</a></li>
+      <li class="hide-sm"><a href="#value">Value</a></li>
       <li><a href="#artifacts">Artifacts</a></li>
     </ul>
   </div>
@@ -94,53 +73,58 @@
 
 <main class="wrap">
   <header class="hero">
-    <p class="eyebrow">Software Engineer &amp; AI Graduate Student</p>
-    <h1>Building reliable software, and learning to make it intelligent.</h1>
-    <p class="lede">I am a software engineer based in Dallas, Texas, currently pursuing a Master of Science in Artificial Intelligence at Indiana Wesleyan University. This portfolio collects the work I am producing as I grow into AI and machine learning.</p>
-    <div class="meta">
-      <span class="pill">Dallas, Texas</span>
-      <span class="pill">About 3 years of industry experience</span>
-      <span class="pill">M.S. in AI, in progress</span>
+    <div>
+      <p class="eyebrow">Software Engineer &amp; AI Graduate Student</p>
+      <h1>Building reliable software, and learning to make it intelligent.</h1>
+      <p class="lede">I am a software engineer based in Dallas, Texas, pursuing a Master of Science in Artificial Intelligence at Indiana Wesleyan University. This portfolio collects the work I am producing as I grow into AI and machine learning.</p>
+      <div class="btn-row">
+        <a class="btn primary" href="#artifacts">View my work</a>
+        <a class="btn" href="#about">About me</a>
+      </div>
     </div>
+    <aside class="card profile">
+      <div class="avatar">PP</div>
+      <h3>Prathamesh Phutane</h3>
+      <div class="role">Software Engineer, Google projects via Avila IT</div>
+      <ul class="facts">
+        <li><span>Location</span><b>Dallas, Texas</b></li>
+        <li><span>Experience</span><b>About 3 years</b></li>
+        <li><span>Focus</span><b>Generative AI, LLMs, automation</b></li>
+        <li><span>Studying</span><b>M.S. in AI, IWU</b></li>
+      </ul>
+    </aside>
   </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I have spent the last few years working on Google projects as a software engineer through Avila IT. Most of my time is with the Tax Technology team, where I turn new tax laws and rate changes into working system rules for different countries, then test them carefully before they go live. I have also worked on Google Shopping features and internal automation tools.</p>
-    <p>I studied Electronics and Communication Engineering at Vellore Institute of Technology and earned my Master of Computer Science at The University of Texas at Dallas. Now I am adding AI to that foundation, with a particular interest in generative AI, large language models and intelligent automation. Outside of work, I enjoy movies, sports and hiking.</p>
-
-    <div class="grid-2" style="margin-top:28px">
-      <div class="card">
-        <div class="stat">~$12M</div>
-        <p>Revenue impacted by a tax information collection form I built for customers in North Macedonia, followed by an automated customer alert system.</p>
-      </div>
-      <div class="card">
-        <div class="stat">100+ hrs</div>
-        <p>Manual work removed each week through automation tools I developed.</p>
-      </div>
+  <section class="block" id="about">
+    <div class="sec-label"><span class="num">01</span><h2>About Me</h2></div>
+    <div class="grid-2">
+      <p>I have spent the last few years working on Google projects as a software engineer through Avila IT. Most of my time is with the Tax Technology team, where I turn new tax laws and rate changes into working system rules for different countries, then test them carefully before they go live. I have also worked on Google Shopping features and internal automation tools.</p>
+      <p>I studied Electronics and Communication Engineering at Vellore Institute of Technology and earned my Master of Computer Science at The University of Texas at Dallas. Now I am adding AI to that foundation, with a strong interest in generative AI, large language models and intelligent automation. Outside of work, I enjoy movies, sports and hiking.</p>
+    </div>
+    <div class="stats">
+      <div class="card stat"><div class="n">~$12M</div><p>Revenue impacted by a tax information collection form I built for customers in North Macedonia.</p></div>
+      <div class="card stat"><div class="n">100+ hrs</div><p>Manual work removed each week through automation tools I developed.</p></div>
+      <div class="card stat"><div class="n">3 degrees</div><p>Engineering, computer science and now artificial intelligence.</p></div>
     </div>
   </section>
 
-  <section id="value">
-    <h2>What I Bring</h2>
-    <div class="value">
-      <p>I combine the discipline of shipping production software, where accuracy, testing and compliance are not optional, with a growing toolkit in machine learning. I want to build AI systems that people can actually trust and use, not just prototypes.</p>
-    </div>
-    <h3 style="margin-bottom:12px">Skills</h3>
-    <div class="tags">
-      <span class="tag">Java</span>
-      <span class="tag">Python</span>
-      <span class="tag">JavaScript</span>
-      <span class="tag">SQL</span>
-      <span class="tag">Spring Boot</span>
-      <span class="tag">React.js</span>
-      <span class="tag">Node.js</span>
-      <span class="tag">TensorFlow</span>
-      <span class="tag">PyTorch</span>
-      <span class="tag">Scikit-learn</span>
+  <section class="block" id="value">
+    <div class="sec-label"><span class="num">02</span><h2>What I Bring</h2></div>
+    <div class="value"><p>I combine the discipline of shipping production software, where accuracy, testing and compliance are not optional, with a growing toolkit in machine learning. My goal is to build AI systems that people can actually trust and use, not just prototypes.</p></div>
+    <div class="grid-3 pillars">
+      <div class="card"><div class="icon">01</div><h3>Production mindset</h3><p>Years of shipping code at Google scale, where every change is tested before it reaches real customers.</p></div>
+      <div class="card"><div class="icon">02</div><h3>Compliance and accuracy</h3><p>Experience turning complex legal rules into precise system logic, a skill that carries directly into responsible AI.</p></div>
+      <div class="card"><div class="icon">03</div><h3>Automation first</h3><p>A habit of finding repetitive work and replacing it with tools, which is where AI adds the most value.</p></div>
     </div>
 
-    <h3 style="margin:32px 0 4px">Education</h3>
+    <h3 style="margin:40px 0 14px">Skills</h3>
+    <div class="tags">
+      <span class="tag">Java</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">SQL</span>
+      <span class="tag">Spring Boot</span><span class="tag">React.js</span><span class="tag">Node.js</span>
+      <span class="tag">TensorFlow</span><span class="tag">PyTorch</span><span class="tag">Scikit-learn</span>
+    </div>
+
+    <h3 style="margin:40px 0 4px">Education</h3>
     <ul class="edu">
       <li><strong>M.S. in Artificial Intelligence</strong><span>Indiana Wesleyan University, in progress</span></li>
       <li><strong>Master of Computer Science</strong><span>The University of Texas at Dallas</span></li>
@@ -148,23 +132,28 @@
     </ul>
   </section>
 
-  <section id="artifacts">
-    <h2>Portfolio Artifacts</h2>
-    <p style="color:var(--muted)">Work created during my AI and machine learning coursework.</p>
-    <div class="artifacts">
-      <div class="card artifact soon">
-        <div>
-          <h3>Machine Learning Algorithm Framework</h3>
-          <p>A visual guide to key machine learning algorithms, their learning types and where they are used.</p>
-        </div>
-        <span class="status">Coming soon</span>
+  <section class="block" id="artifacts">
+    <div class="sec-label"><span class="num">03</span><h2>Portfolio Artifacts</h2></div>
+    <p class="muted" style="margin-bottom:26px">Work created during my AI and machine learning coursework. Each artifact includes the finished deliverable and an explanation of how and why I made it.</p>
+
+    <a class="card artifact-card" href="artifacts/ml-algorithm-framework/">
+      <div class="thumb"><img src="artifacts/ml-algorithm-framework/framework-preview.png" alt="Preview of the Machine Learning Algorithm Framework infographic"></div>
+      <div class="body">
+        <div class="no">Artifact 1 &middot; Infographic</div>
+        <h3>Machine Learning Algorithm Framework</h3>
+        <p>A visual guide to twelve key algorithms, classified as supervised or unsupervised and mapped to tabular data, computer vision, NLP and generative AI, with a guide for choosing the right one.</p>
+        <span class="go">View artifact &rarr;</span>
       </div>
-    </div>
+    </a>
+    <div class="slot">More artifacts will be added as I progress through the program.</div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">© 2026 Prathamesh Phutane · <a href="https://github.com/Prathameshphutane">GitHub</a></div>
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Prathamesh Phutane</span>
+    <a href="https://github.com/Prathameshphutane">GitHub</a>
+  </div>
 </footer>
 
 </body>

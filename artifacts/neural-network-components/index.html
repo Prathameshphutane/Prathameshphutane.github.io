@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside a Neural Network | Prathamesh Phutane</title>
+<meta name="description" content="Portfolio artifact: a visual presentation of neural network components, backed by 100 training runs in TensorFlow Playground.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  .crumbs { padding-top: 28px; font-size: 14px; color: var(--muted); }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .a-head { padding: 26px 0 36px; }
+  .a-head h1 { font-size: clamp(32px, 5vw, 48px); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+
+  .preview { padding: 0; overflow: hidden; }
+  .preview a { display: block; }
+  .preview img { width: 100%; border-bottom: 1px solid var(--line); }
+  .preview .bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 20px; }
+  .preview .bar span { color: var(--muted); font-size: 14px; }
+
+  .toc { position: sticky; top: 86px; font-size: 14px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px; border-left: 2px solid var(--line); }
+  .toc a:hover { color: var(--ink); border-left-color: var(--accent); }
+  .layout { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 56px 0 24px; }
+  article.write-up section { padding-bottom: 34px; margin-bottom: 34px; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+  article.write-up section:last-child { border-bottom: 0; }
+  article.write-up h2 { font-size: 25px; margin-bottom: 12px; }
+  article.write-up ol, article.write-up ul { padding-left: 22px; margin: 0 0 16px; }
+  article.write-up li { margin-bottom: 8px; }
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tool { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14.5px; }
+  .tool b { display: block; }
+  .tool span { color: var(--muted); }
+  .refs li { font-size: 14.5px; }
+  .callout { background: var(--accent-soft); border-radius: 12px; padding: 18px 20px; }
+  .callout p:last-child { margin: 0; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 4px 0 16px; }
+  table.data th, table.data td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.data th { font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .scroll { overflow-x: auto; }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding-top: 40px; }
+    .toc { display: none; }
+    .tool-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="../../"><span class="mono">PP</span>Prathamesh Phutane</a>
+    <ul>
+      <li><a href="../../#about">About</a></li>
+      <li><a href="../../#artifacts">Artifacts</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="crumbs"><a href="../../">Home</a> / <a href="../../#artifacts">Artifacts</a> / Inside a Neural Network</div>
+
+  <header class="a-head">
+    <p class="eyebrow">Artifact 2 &middot; Visual Presentation</p>
+    <h1>Inside a Neural Network</h1>
+    <p class="lede">A 21-slide presentation that explains the six core components of a neural network, classifies them into four groups, and tests each one with 100 training runs in TensorFlow Playground.</p>
+    <div class="meta">
+      <span class="pill">6 components</span>
+      <span class="pill">4 groups</span>
+      <span class="pill">20 network setups</span>
+      <span class="pill">100 training runs</span>
+    </div>
+  </header>
+
+  <div class="card preview">
+    <a href="slides.html"><img src="deck-preview.jpg" alt="Cover slide of the Inside a Neural Network presentation"></a>
+    <div class="bar">
+      <span>View every slide in the browser, or download the full presentation.</span>
+      <div class="btn-row">
+        <a class="btn primary" href="slides.html">View the slides</a>
+        <a class="btn" href="Neural-Network-Components.pdf" download>Download PDF</a>
+        <a class="btn" href="https://github.com/Prathameshphutane/Prathameshphutane.github.io/tree/main/artifacts/neural-network-components/code">Experiment code</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sections">
+      <a href="#introduction">Introduction</a>
+      <a href="#description">Description</a>
+      <a href="#objective">Objective</a>
+      <a href="#process">Process</a>
+      <a href="#classification">Classification</a>
+      <a href="#findings">Key Findings</a>
+      <a href="#tools">Tools and Technologies</a>
+      <a href="#value">Value Proposition</a>
+      <a href="#unique">Unique Value</a>
+      <a href="#relevance">Relevance</a>
+      <a href="#references">References</a>
+    </nav>
+
+    <article class="write-up">
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <p>My first artifact, the Machine Learning Algorithm Framework, helped readers choose the right algorithm for a problem. This artifact goes inside one of those algorithms. Neural networks power image recognition, translation and chatbots, but most explanations either stay too shallow or jump straight into equations. I wanted to show what each part of a network does, how the parts work together, and what actually changes when you adjust them.</p>
+      </section>
+
+      <section id="description">
+        <h2>Description</h2>
+        <p>The artifact is a 21-slide presentation in four parts:</p>
+        <ol>
+          <li><strong>Introduction:</strong> an About Me slide, a project description (context, challenge and solution) and a data-flow diagram that follows a training step from the input layer through the hidden layers to the output, the loss and back again.</li>
+          <li><strong>The six components:</strong> one slide each for layers, neurons, weights and biases, activation functions, loss functions and optimization algorithms. Every slide pairs a definition with a diagram or formula and a result from my own experiments.</li>
+          <li><strong>Classification:</strong> a concept map of the four groups, a comparison chart of all six components and a slide that explains how I sorted them.</li>
+          <li><strong>Experiments and summary:</strong> the results of 20 network setups in TensorFlow Playground, a one-page results table and a summary of why visualizing neural networks matters.</li>
+        </ol>
+      </section>
+
+      <section id="objective">
+        <h2>Objective</h2>
+        <p>The goal was to clearly define each key component of a neural network, illustrate its role visually and explain complex ideas in a way that a non-specialist can follow. A second goal was to support every claim with evidence from hands-on experiments instead of repeating textbook statements.</p>
+      </section>
+
+      <section id="process">
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Hands-on exploration.</strong> I trained models in TensorFlow Playground and changed one setting at a time: the dataset, the noise level, the input features, the number of layers and neurons, the activation function and the learning rate.</li>
+          <li><strong>Making the experiments fair.</strong> A network can get lucky or unlucky with its random starting weights, so I trained every setup five times and reported the median. To log exact numbers, I ported the Playground’s open-source training code to Python and kept its defaults: 500 points, a 50/50 training and test split, batch size 10 and a learning rate of 0.03.</li>
+          <li><strong>Classifying the components.</strong> I grouped the six components by the question each one answers and tested that grouping against a second rule, as described below.</li>
+          <li><strong>Designing the slides.</strong> I used one idea per slide, a consistent heading layout and the Playground’s own blue and orange colors, so the charts match what readers see in the tool.</li>
+          <li><strong>Review.</strong> I checked every number against the saved results, rendered every slide to confirm that nothing overlapped, and proofread all of the text.</li>
+        </ol>
+      </section>
+
+      <section id="classification">
+        <h2>How the Components Were Classified</h2>
+        <p>I sorted the six components by function, meaning the question each one answers in a training step:</p>
+        <ul>
+          <li><strong>Structure</strong> (layers and neurons): what the network is made of.</li>
+          <li><strong>Parameters</strong> (weights and biases): what the network learns.</li>
+          <li><strong>Transformation</strong> (activation functions): how each neuron shapes its signal.</li>
+          <li><strong>Training</strong> (loss functions and optimizers): how the network improves.</li>
+        </ul>
+        <p>I then checked each component with a second test: is it learned from data, or chosen by the designer? Only the weights and biases are learned. Everything else is a hyperparameter, which is exactly why each one could be tested in the Playground. I considered grouping the components by forward pass and backward pass instead, but I rejected that option because weights and activations are used in both passes, so a single component would land in two groups. My experiments follow the same grouping, with one extra group for the data and input features.</p>
+      </section>
+
+      <section id="findings">
+        <h2>Key Findings</h2>
+        <div class="scroll">
+          <table class="data">
+            <tr><th>Experiment</th><th>Settings compared</th><th>Median test accuracy</th><th>Lesson</th></tr>
+            <tr><td>Data type</td><td>Gaussian / circle / XOR / spiral</td><td>100 / 100 / 99 / 61%</td><td>Hard shapes need more capacity</td></tr>
+            <tr><td>Noise</td><td>0 / 25 / 50</td><td>100 / 92 / 74%</td><td>Noisy labels cap accuracy</td></tr>
+            <tr><td>Input features</td><td>X₁, X₂ vs. X₁², X₂² (no hidden layer)</td><td>55% &rarr; 100%</td><td>Good features can replace layers</td></tr>
+            <tr><td>Layers and neurons</td><td>[4, 2] vs. [8, 8, 8] on the spiral</td><td>62% &rarr; 93%</td><td>Capacity solves the spiral</td></tr>
+            <tr><td>Activation</td><td>linear / sigmoid / tanh / ReLU</td><td>60 / 59 / 93 / 96%</td><td>Non-linearity is essential</td></tr>
+            <tr><td>Learning rate</td><td>0.003 / 0.03 / 0.3 / 3</td><td>84 / 100 / 99 / 64%</td><td>Too small crawls, too large diverges</td></tr>
+          </table>
+        </div>
+        <div class="callout"><p><strong>Key takeaway:</strong> a neural network is a set of simple parts that learn together. The right input features, enough capacity, a non-linear activation and a sensible learning rate matter more than any single component on its own.</p></div>
+      </section>
+
+      <section id="tools">
+        <h2>Tools and Technologies Used</h2>
+        <div class="tool-grid">
+          <div class="tool"><b>TensorFlow Playground</b><span>Hands-on model training and exploration</span></div>
+          <div class="tool"><b>Python and NumPy</b><span>Reproducing the Playground experiments with exact results</span></div>
+          <div class="tool"><b>Matplotlib</b><span>Decision-boundary maps and loss curves</span></div>
+          <div class="tool"><b>Slide deck and PDF</b><span>The 21-slide presentation and its PDF export</span></div>
+          <div class="tool"><b>GitHub and GitHub Pages</b><span>Version control and hosting</span></div>
+          <div class="tool"><b>Course resources and documentation</b><span>Research and fact checking</span></div>
+        </div>
+      </section>
+
+      <section id="value">
+        <h2>Value Proposition</h2>
+        <p>This artifact shows that I can understand a model from the inside, design fair experiments to test it, and explain the results visually to people who do not write code. These are the same skills I rely on at work when I turn complex rules into tested system logic and explain my changes to other teams.</p>
+      </section>
+
+      <section id="unique">
+        <h2>Unique Value</h2>
+        <p>Most introductions to neural networks define the components and stop there. This presentation goes further in three ways. It backs every component with a measured result from 100 training runs. It classifies the components into four groups and explains the reasoning, including the edge cases. And it shares the code, so anyone can reproduce every number and chart.</p>
+      </section>
+
+      <section id="relevance">
+        <h2>Relevance</h2>
+        <p>Every modern AI system, from image classifiers to large language models, is built from the same components covered here. Knowing how layers, activations, loss functions and optimizers interact makes it easier to debug a model that will not train, choose sensible settings, and explain a model’s behavior to stakeholders. This presentation will also serve as my own reference as the program moves into deeper models.</p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ul class="refs">
+          <li>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016). <em>Deep learning</em>. MIT Press. <a href="https://www.deeplearningbook.org/">https://www.deeplearningbook.org/</a></li>
+          <li>Google. (n.d.). Neural networks. <em>Machine Learning Crash Course</em>. <a href="https://developers.google.com/machine-learning/crash-course/neural-networks">https://developers.google.com/machine-learning/crash-course/neural-networks</a></li>
+          <li>Kingma, D. P., &amp; Ba, J. (2015). Adam: A method for stochastic optimization. <em>International Conference on Learning Representations</em>. <a href="https://arxiv.org/abs/1412.6980">https://arxiv.org/abs/1412.6980</a></li>
+          <li>Nair, V., &amp; Hinton, G. E. (2010). Rectified linear units improve restricted Boltzmann machines. <em>Proceedings of the 27th International Conference on Machine Learning</em>, 807-814.</li>
+          <li>Rumelhart, D. E., Hinton, G. E., &amp; Williams, R. J. (1986). Learning representations by back-propagating errors. <em>Nature, 323</em>(6088), 533-536.</li>
+          <li>Smilkov, D., &amp; Carter, S. (n.d.). <em>TensorFlow Playground</em>. <a href="https://playground.tensorflow.org/">https://playground.tensorflow.org/</a> (source code: <a href="https://github.com/tensorflow/playground">https://github.com/tensorflow/playground</a>)</li>
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Prathamesh Phutane</span>
+    <a href="../../#artifacts">Back to all artifacts</a>
+  </div>
+</footer>
+
+</body>
+</html>

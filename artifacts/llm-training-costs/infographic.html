@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>What It Takes to Train a Large Language Model | Prathamesh Phutane</title>
+<meta name="viewport" content="width=1200">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14213D; --ink:#1F2937; --muted:#5B6474; --line:#E3E7EE; --bg:#F6F8FB;
+  --data:#0F8B8D; --data-l:#E3F4F4;
+  --comp:#4C51BF; --comp-l:#E9EAFB;
+  --ener:#C77700; --ener-l:#FCF1DF;
+  --time:#C2416B; --time-l:#FBE7EE;
+  --ppl:#5A6B7B; --ppl-l:#ECEFF2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1200px;font-family:Inter,Arial,sans-serif;color:var(--ink);background:#fff}
+.header{background:var(--navy);color:#fff;padding:52px 64px 44px}
+.kicker{font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#9FB3D9;font-weight:600}
+h1{font-size:50px;line-height:1.08;font-weight:800;margin-top:12px;letter-spacing:-.5px}
+.sub{font-size:20px;color:#D5DEEF;margin-top:16px;max-width:900px;line-height:1.45}
+.legend{display:flex;gap:22px;margin-top:26px;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:8px;font-size:15px;color:#E6ECF7;font-weight:500}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+section{padding:44px 64px}
+section.alt{background:var(--bg)}
+.sec-title{display:flex;align-items:baseline;gap:14px}
+.sec-num{font-size:15px;font-weight:700;color:#fff;background:var(--navy);border-radius:999px;width:30px;height:30px;display:flex;align-items:center;justify-content:center}
+h2{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.sec-desc{font-size:17px;color:var(--muted);margin:8px 0 26px 44px;line-height:1.45}
+/* pipeline */
+.phases{display:grid;grid-template-columns:2fr 2fr 2fr;gap:14px;margin-bottom:10px}
+.phase{text-align:center;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);border-bottom:3px solid var(--navy);padding-bottom:8px}
+.steps{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;position:relative}
+.step{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 15px 16px;position:relative;box-shadow:0 1px 2px rgba(20,33,61,.05)}
+.step:not(:last-child)::after{content:"";position:absolute;right:-13px;top:44px;width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:11px solid #9AA6BA;z-index:2}
+.step .n{font-size:13px;font-weight:800;color:#9AA6BA}
+.step svg{width:34px;height:34px;margin:6px 0 4px}
+.step h3{font-size:17px;line-height:1.2;font-weight:700;color:var(--navy);min-height:42px}
+.step p{font-size:13.5px;line-height:1.42;color:var(--muted);margin-top:6px;min-height:136px}
+.step .ex{font-size:12.5px;line-height:1.35;background:var(--bg);border-radius:8px;padding:7px 8px;margin:8px 0 12px;color:var(--ink);min-height:68px}
+.step .ex b{color:var(--navy)}
+.heat{margin-top:auto;border-top:1px dashed var(--line);padding-top:10px}
+.hrow{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;color:var(--muted);margin:3px 0}
+.dots{display:flex;gap:3px}
+.dots i{width:10px;height:10px;border-radius:3px;background:#E5E8EE;display:block}
+.heatnote{font-size:13px;color:var(--muted);margin-top:14px}
+/* resource cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{display:flex;flex-direction:column;border-radius:16px;padding:22px 20px;background:#fff;border:1px solid var(--line);border-top:6px solid}
+.card .top{display:flex;align-items:center;gap:12px}
+.card .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.card .ic svg{width:26px;height:26px}
+.card h3{font-size:22px;font-weight:800}
+.card .what{font-size:14px;color:var(--muted);line-height:1.45;margin-top:12px;min-height:82px}
+.big{font-size:34px;font-weight:800;margin-top:14px;letter-spacing:-.5px;line-height:1}
+.bigl{font-size:13px;color:var(--muted);margin-top:5px;line-height:1.35;min-height:36px}
+.card ul{list-style:none;margin:14px 0;border-top:1px solid var(--line);padding-top:12px}
+.card li{font-size:13.5px;line-height:1.42;margin:7px 0;padding-left:16px;position:relative}
+.card li::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:2px;background:currentColor;opacity:.55}
+.why{margin-top:auto;font-size:13.5px;line-height:1.42;border-radius:10px;padding:10px 12px}
+.why b{display:block;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+/* chart */
+.chartwrap{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+.panel h3{font-size:19px;font-weight:800;color:var(--navy)}
+.panel .ps{font-size:13.5px;color:var(--muted);margin-top:4px;line-height:1.4}
+.bars{margin-top:18px}
+.bar{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:12px;margin:14px 0}
+.bar .lab{font-size:14px;font-weight:700;color:var(--navy);line-height:1.2}
+.bar .lab small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.track{position:relative;height:30px}
+.fill{height:30px;border-radius:6px;background:var(--comp);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;color:#fff;font-weight:700;font-size:14px}
+.fill.out{justify-content:flex-start}
+.val{position:absolute;top:5px;font-weight:700;font-size:14px;color:var(--navy)}
+.range{position:absolute;height:30px;border-radius:6px;background:repeating-linear-gradient(45deg,#C9CBF3 0 6px,#E9EAFB 6px 12px);border:2px dashed var(--comp)}
+.axis{display:grid;grid-template-columns:150px 1fr;gap:12px;margin-top:4px}
+.ticks{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:4px}
+.trend{display:flex;align-items:center;gap:14px;margin-top:18px;background:var(--comp-l);border-radius:12px;padding:12px 14px}
+.trend .t1{font-size:26px;font-weight:800;color:var(--comp);white-space:nowrap}
+.trend p{font-size:13.5px;line-height:1.4}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13px}
+th{text-align:left;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 6px;border-bottom:2px solid var(--navy)}
+td{padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.35}
+td.m{font-weight:700;color:var(--navy);width:118px}
+td.m small{display:block;font-weight:500;color:var(--muted)}
+.nd{color:#97A0AF;font-style:italic}
+.pill{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:999px;margin-right:3px}
+/* stacked */
+.split{margin-top:6px}
+.stack{display:flex;height:40px;border-radius:8px;overflow:hidden;margin-top:12px}
+.stack div{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+.slegend{display:flex;gap:18px;margin-top:8px;font-size:13px;color:var(--muted)}
+/* takeaways */
+.take{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tk{background:#fff;border-radius:14px;padding:18px 16px;border:1px solid var(--line)}
+.tk .k{font-size:28px;font-weight:800;color:var(--navy);line-height:1}
+.tk h4{font-size:15px;font-weight:700;margin-top:10px;color:var(--navy);line-height:1.25}
+.tk p{font-size:13px;color:var(--muted);line-height:1.42;margin-top:6px}
+.footer{background:var(--navy);color:#C9D3E6;padding:26px 64px 30px;font-size:11.5px;line-height:1.55}
+.footer b{color:#fff}
+.footer .by{display:flex;justify-content:space-between;margin-top:12px;color:#9FB3D9;font-size:12.5px}
+</style></head>
+<body>
+
+<div class="header">
+  <div class="kicker">Generative AI Infrastructure</div>
+  <h1>What It Takes to Train a<br>Large Language Model</h1>
+  <div class="sub">The six steps from raw data to a deployed chatbot, the four resources that drive the bill, and what we know about the costs of GPT-4, Gemini, Llama, Claude, and DeepSeek.</div>
+  <div class="legend">
+    <span><i style="background:var(--data)"></i>Data</span>
+    <span><i style="background:var(--comp)"></i>Compute</span>
+    <span><i style="background:var(--ener)"></i>Energy</span>
+    <span><i style="background:var(--time)"></i>Time</span>
+    <span><i style="background:var(--ppl)"></i>People (supporting cost)</span>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section>
+  <div class="sec-title"><div class="sec-num">1</div><h2>The Training Pipeline</h2></div>
+  <div class="sec-desc">Every major LLM follows roughly the same path. The dots under each step show which resources that step uses most.</div>
+  <div class="phases"><div class="phase">Prepare</div><div class="phase">Train</div><div class="phase">Ship</div></div>
+  <div class="steps" id="steps"></div>
+  <div class="heatnote">Dot ratings show relative intensity within each resource (author's assessment based on the sources below). ● = low, ●●● = high.</div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="alt">
+  <div class="sec-title"><div class="sec-num">2</div><h2>The Four Resources Behind the Cost</h2></div>
+  <div class="sec-desc">Each resource adds to the bill in a different way, and each one affects how good the final model is.</div>
+  <div class="cards">
+    <div class="card" style="border-top-color:var(--data)">
+      <div class="top"><div class="ic" style="background:var(--data-l)"><svg viewBox="0 0 24 24" fill="none" stroke="#0F8B8D" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><h3 style="color:var(--data)">Data</h3></div>
+      <div class="what">The text the model learns from: web pages, books, code, and licensed content, plus human-written examples for fine-tuning.</div>
+      <div class="big" style="color:var(--data)">15T+ tokens</div>
+      <div class="bigl">Llama 3.1 pre-training data, up from 300B tokens for GPT-3 in 2020</div>
+      <ul style="color:var(--data)">
+        <li style="color:var(--ink)">Costs: licensing deals, storage, cleaning pipelines, and paid human labelers</li>
+        <li style="color:var(--ink)">DeepSeek-V3: 14.8T tokens</li>
+      </ul>
+      <div class="why" style="background:var(--data-l)"><b style="color:var(--data)">Effect on performance</b>More and cleaner data means broader knowledge. Poor data adds bias and errors that no amount of compute fixes.</div>
+    </div>
+    <div class="card" style="border-top-color:var(--comp)">
+      <div class="top"><div class="ic" style="background:var(--comp-l)"><svg viewBox="0 0 24 24" fill="none" stroke="#4C51BF" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg></div><h3 style="color:var(--comp)">Compute</h3></div>
+      <div class="what">The GPUs or TPUs that run the math, plus the data centers, networking, and cooling around them.</div>
+      <div class="big" style="color:var(--comp)">39.3M</div>
+      <div class="bigl">H100 GPU-hours used to train the Llama 3.1 model family</div>
+      <ul>
+        <li>GPT-4: about 25,000 GPUs (leaked estimate)</li>
+        <li>DeepSeek-V3: 2,048 H800 GPUs</li>
+      </ul>
+      <div class="why" style="background:var(--comp-l)"><b style="color:var(--comp)">Effect on performance</b>The biggest cost driver. More compute allows bigger models trained on more data, which generally raises capability.</div>
+    </div>
+    <div class="card" style="border-top-color:var(--ener)">
+      <div class="top"><div class="ic" style="background:var(--ener-l)"><svg viewBox="0 0 24 24" fill="none" stroke="#C77700" stroke-width="2" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div><h3 style="color:var(--ener)">Energy</h3></div>
+      <div class="what">The electricity to power and cool thousands of chips running nonstop, and the carbon emissions that come with it.</div>
+      <div class="big" style="color:var(--ener)">1,287 MWh</div>
+      <div class="bigl">to train GPT-3, producing about 552 t CO₂e, roughly 120 cars driven for a year</div>
+      <ul style="color:var(--ener)">
+        <li style="color:var(--ink)">Llama 3.1 family: 11,390 t CO₂e (location-based)</li>
+        <li style="color:var(--ink)">Hardware, grid mix, and location can change emissions up to 1,000×</li>
+      </ul>
+      <div class="why" style="background:var(--ener-l)"><b style="color:var(--ener)">Effect on performance</b>Energy does not improve the model directly. It scales with compute, so it is the hidden price of every capability gain.</div>
+    </div>
+    <div class="card" style="border-top-color:var(--time)">
+      <div class="top"><div class="ic" style="background:var(--time-l)"><svg viewBox="0 0 24 24" fill="none" stroke="#C2416B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></div><h3 style="color:var(--time)">Time</h3></div>
+      <div class="what">Weeks to months of continuous training, plus the months of data prep, testing, and safety work around it.</div>
+      <div class="big" style="color:var(--time)">~3 months</div>
+      <div class="bigl">estimated GPT-4 training run (leaked estimate)</div>
+      <ul>
+        <li>DeepSeek-V3: under 2 months on 2,048 GPUs</li>
+        <li>One trillion tokens = about 3.7 days on that cluster</li>
+      </ul>
+      <div class="why" style="background:var(--time-l)"><b style="color:var(--time)">Effect on performance</b>Longer runs let the model see more data. But every extra week ties up expensive hardware and delays release.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section>
+  <div class="sec-title"><div class="sec-num">3</div><h2>What Real Models Cost</h2></div>
+  <div class="sec-desc">Companies rarely publish full numbers, so most figures are estimates. They cover compute for training, not salaries, research, or failed runs.</div>
+  <div class="chartwrap">
+    <div class="panel">
+      <h3>Estimated compute cost to train</h3>
+      <div class="ps">US dollars, millions. Solid bars are published estimates; the hatched bar is a disclosed range.</div>
+      <div class="bars">
+        <div class="bar"><div class="lab">DeepSeek-V3<small>DeepSeek, 2024</small></div><div class="track"><div class="fill" style="width:2.9%"></div><div class="val" style="left:calc(2.9% + 8px)">$5.6M <span style="font-weight:500;color:var(--muted)">(final run only)</span></div></div></div>
+        <div class="bar"><div class="lab">Claude 3.5 Sonnet<small>Anthropic, 2024</small></div><div class="track"><div class="range" style="left:10.5%;width:15.6%"></div><div class="val" style="left:calc(26.1% + 8px)">"a few $10M's"</div></div></div>
+        <div class="bar"><div class="lab">GPT-4<small>OpenAI, 2023</small></div><div class="track"><div class="fill" style="width:40.8%">$78M</div><div class="val" style="left:calc(40.8% + 8px);font-weight:500;color:var(--muted)">CEO: "more than $100M" total</div></div></div>
+        <div class="bar"><div class="lab">Gemini Ultra<small>Google, 2023</small></div><div class="track"><div class="fill" style="width:100%">$191M</div></div></div>
+      </div>
+      <div class="axis"><div></div><div class="ticks"><span>$0</span><span>$50M</span><span>$100M</span><span>$150M</span><span>$191M</span></div></div>
+      <div class="trend"><div class="t1">$900 → $191M</div><p>The original 2017 Transformer cost about $900 to train. Six years later, Gemini Ultra cost about 200,000 times more.</p></div>
+    </div>
+    <div class="panel">
+      <h3>Model fact sheet</h3>
+      <div class="ps">What each developer has disclosed. Grey italics = not publicly disclosed.</div>
+      <table>
+        <tr><th>Model</th><th>Data</th><th>Compute &amp; time</th><th>Energy</th></tr>
+        <tr><td class="m">GPT-4<small>OpenAI</small></td><td class="nd">Not disclosed</td><td>~25,000 GPUs, ~3 months (leaked est.)</td><td class="nd">Not disclosed</td></tr>
+        <tr><td class="m">Gemini Ultra<small>Google</small></td><td class="nd">Not disclosed</td><td>Google TPUs; size not disclosed</td><td class="nd">Not disclosed</td></tr>
+        <tr><td class="m">Llama 3.1<small>Meta (open)</small></td><td>15T+ tokens, cutoff Dec 2023</td><td>39.3M H100 GPU-hours (family)</td><td>11,390 t CO₂e</td></tr>
+        <tr><td class="m">Claude 3.5 Sonnet<small>Anthropic</small></td><td class="nd">Not disclosed</td><td>"Mid-sized" model; cost "a few $10M's"</td><td class="nd">Not disclosed</td></tr>
+        <tr><td class="m">DeepSeek-V3<small>DeepSeek (open)</small></td><td>14.8T tokens</td><td>2,048 H800s; 2.788M GPU-hours; &lt;2 months</td><td class="nd">Not disclosed</td></tr>
+      </table>
+      <div class="split">
+        <h3 style="margin-top:20px;font-size:16px">Where the compute goes: DeepSeek-V3's 2.788M GPU-hours</h3>
+        <div class="stack"><div style="width:95.1%;background:var(--comp)">Pre-training 95.6%</div><div style="width:4.3%;background:#8B8FE0"></div><div style="width:0.6%;background:var(--ppl)"></div></div>
+        <div class="slegend"><span><b style="color:#8B8FE0">■</b> Context extension 4.3%</span><span><b style="color:var(--ppl)">■</b> Fine-tuning &amp; RL 0.2%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="alt">
+  <div class="sec-title"><div class="sec-num">4</div><h2>Key Takeaways</h2></div>
+  <div style="height:22px"></div>
+  <div class="take">
+    <div class="tk"><div class="k" style="color:var(--comp)">95.6%</div><h4>Pre-training dominates</h4><p>Share of DeepSeek-V3's GPU-hours spent on one step: learning to predict the next token.</p></div>
+    <div class="tk"><div class="k" style="color:var(--ener)">200,000×</div><h4>Costs are rising fast</h4><p>Frontier training costs went from about $900 in 2017 to $191M in 2023.</p></div>
+    <div class="tk"><div class="k" style="color:var(--data)">$5.6M</div><h4>Efficiency matters</h4><p>Smarter architectures and lower-precision math let DeepSeek train a strong model for far less compute.</p></div>
+    <div class="tk"><div class="k" style="color:var(--time)">≠ total</div><h4>Headline numbers undercount</h4><p>Reported figures usually cover one final run, not research, failed runs, staff, or hardware purchases.</p></div>
+    <div class="tk"><div class="k" style="color:var(--ppl)">?</div><h4>Transparency gap</h4><p>Closed labs disclose little, so open models like Llama and DeepSeek provide most of the hard data.</p></div>
+  </div>
+</section>
+
+<div class="footer">
+  <b>Sources:</b> Stanford HAI, <i>AI Index Report 2024</i> (GPT-4, Gemini Ultra, Transformer cost estimates with Epoch AI) · Meta, Llama 3.1 model card (2024) · DeepSeek-AI, <i>DeepSeek-V3 Technical Report</i> (2024) · Amodei, D., "On DeepSeek and Export Controls" (2025) · Patterson et al., "Carbon Emissions and Large Neural Network Training" (2021) · Brown et al., "Language Models are Few-Shot Learners" (2020) · Smith et al., "Environmental Impact of Large Language Models," Cutter/Arthur D. Little (2023) · Fortune (2021). Leaked GPT-4 figures are unofficial estimates. Dollar figures are compute-only estimates.
+  <div class="by"><span>Prathamesh Phutane · M.S. in Artificial Intelligence, Indiana Wesleyan University</span><span>November 2026</span></div>
+</div>
+
+<script>
+const R={d:'var(--data)',c:'var(--comp)',e:'var(--ener)',t:'var(--time)',p:'var(--ppl)'};
+const icons={
+ collect:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F8B8D" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>',
+ clean:'<svg viewBox="0 0 24 24" fill="none" stroke="#0F8B8D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>',
+ pre:'<svg viewBox="0 0 24 24" fill="none" stroke="#4C51BF" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7l3 4M7 17l3-4M14 11l3-4M14 13l3 4"/></svg>',
+ tune:'<svg viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="7" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 11l2 2 4-4"/></svg>',
+ eval:'<svg viewBox="0 0 24 24" fill="none" stroke="#5A6B7B" stroke-width="2" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke-linecap="round"/></svg>',
+ deploy:'<svg viewBox="0 0 24 24" fill="none" stroke="#C77700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v11H4z"/><path d="M8 20h8M12 15v5"/><path d="M8 9.5h3M8 12h6"/></svg>'};
+const steps=[
+ {k:'collect',t:'Data Collection',p:'Gather huge amounts of text: public web pages, books, code, and licensed data. Human trainers also write example conversations.',ex:'<b>Llama 3.1:</b> 15T+ tokens of public online data',h:{d:3,c:1,e:1,t:2,p:2}},
+ {k:'clean',t:'Cleaning & Tokenizing',p:'Remove spam, duplicates, and harmful content, then split the text into tokens (word pieces) the model can process.',ex:'<b>GPT-3:</b> 45 TB of raw web text filtered down to 570 GB',h:{d:3,c:2,e:1,t:2,p:1}},
+ {k:'pre',t:'Pre-training',p:'The model reads trillions of tokens and learns by predicting the next token over and over, adjusting billions of weights.',ex:'<b>DeepSeek-V3:</b> 2.66M of 2.79M GPU-hours (95.6%)',h:{d:2,c:3,e:3,t:3,p:1}},
+ {k:'tune',t:'Fine-tuning & Alignment',p:'Humans write ideal answers and rank model outputs (RLHF) so the model follows instructions and behaves safely.',ex:'<b>DeepSeek-V3:</b> only 5K GPU-hours, but needs skilled human labelers',h:{d:2,c:1,e:1,t:2,p:3}},
+ {k:'eval',t:'Evaluation & Safety Testing',p:'Test the model on benchmarks and use red teams to find harmful or wrong behavior before release.',ex:'<b>GPT-4:</b> tested with domain experts and adversarial red teaming',h:{d:1,c:1,e:1,t:2,p:3}},
+ {k:'deploy',t:'Deployment & Inference',p:'Serve the model to users through apps and APIs. Every answer uses compute and energy, so costs continue after training.',ex:'<b>Industry:</b> inference can be up to 90% of large-scale AI workload costs',h:{d:1,c:3,e:3,t:1,p:1}}];
+const names={d:'Data',c:'Compute',e:'Energy',t:'Time',p:'People'};
+document.getElementById('steps').innerHTML=steps.map((s,i)=>`<div class="step"><div class="n">STEP ${i+1}</div>${icons[s.k]}<h3>${s.t}</h3><p>${s.p}</p><div class="ex">${s.ex}</div><div class="heat">${Object.keys(names).map(r=>`<div class="hrow"><span>${names[r]}</span><span class="dots">${[1,2,3].map(n=>`<i style="${n<=s.h[r]?'background:'+R[r]:''}"></i>`).join('')}</span></div>`).join('')}</div></div>`).join('');
+</script>
+</body></html>

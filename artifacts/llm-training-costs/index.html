@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What It Takes to Train a Large Language Model | Prathamesh Phutane</title>
+<meta name="description" content="Portfolio artifact: an infographic on the LLM training pipeline and the data, compute, energy and time costs behind GPT-4, Gemini, Llama, Claude and DeepSeek.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+<style>
+  .crumbs { padding-top: 28px; font-size: 14px; color: var(--muted); }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--ink); }
+  .a-head { padding: 26px 0 36px; }
+  .a-head h1 { font-size: clamp(32px, 5vw, 48px); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+
+  .preview { padding: 0; overflow: hidden; }
+  .preview a { display: block; }
+  .preview img { width: 100%; max-height: 640px; object-fit: cover; object-position: top; border-bottom: 1px solid var(--line); }
+  .preview .bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 16px 20px; }
+  .preview .bar span { color: var(--muted); font-size: 14px; }
+
+  .toc { position: sticky; top: 86px; font-size: 14px; }
+  .toc a { display: block; color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px; border-left: 2px solid var(--line); }
+  .toc a:hover { color: var(--ink); border-left-color: var(--accent); }
+  .layout { display: grid; grid-template-columns: 200px 1fr; gap: 48px; padding: 56px 0 24px; }
+  article.write-up section { padding-bottom: 34px; margin-bottom: 34px; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+  article.write-up section:last-child { border-bottom: 0; }
+  article.write-up h2 { font-size: 25px; margin-bottom: 12px; }
+  article.write-up ol, article.write-up ul { padding-left: 22px; margin: 0 0 16px; }
+  article.write-up li { margin-bottom: 8px; }
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tool { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: 14.5px; }
+  .tool b { display: block; }
+  .tool span { color: var(--muted); }
+  .refs li { font-size: 14.5px; }
+  .callout { background: var(--accent-soft); border-radius: 12px; padding: 18px 20px; }
+  .callout p:last-child { margin: 0; }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding-top: 40px; }
+    .toc { display: none; }
+    .tool-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="../../"><span class="mono">PP</span>Prathamesh Phutane</a>
+    <ul>
+      <li><a href="../../#about">About</a></li>
+      <li><a href="../../#artifacts">Artifacts</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="crumbs"><a href="../../">Home</a> / <a href="../../#artifacts">Artifacts</a> / What It Takes to Train a Large Language Model</div>
+
+  <header class="a-head">
+    <p class="eyebrow">Artifact 3 &middot; Infographic</p>
+    <h1>What It Takes to Train a Large Language Model</h1>
+    <p class="lede">An infographic that walks through the six steps of training a generative AI model, explains the four resources that drive the cost, and compares what is publicly known about GPT-4, Gemini Ultra, Llama 3.1, Claude 3.5 Sonnet and DeepSeek-V3.</p>
+    <div class="meta">
+      <span class="pill">6-step training pipeline</span>
+      <span class="pill">Data, compute, energy, time</span>
+      <span class="pill">5 real models compared</span>
+    </div>
+  </header>
+
+  <div class="card preview">
+    <a href="infographic.html"><img src="infographic-preview.png" alt="Preview of the What It Takes to Train a Large Language Model infographic"></a>
+    <div class="bar">
+      <span>The full infographic is one tall page. Open it in the browser or download it.</span>
+      <div class="btn-row">
+        <a class="btn primary" href="infographic.html">Open the infographic</a>
+        <a class="btn" href="LLM_Training_Infographic.pdf" download>Download PDF</a>
+        <a class="btn" href="LLM_Training_Infographic.png" download>Download PNG</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sections">
+      <a href="#introduction">Introduction</a>
+      <a href="#description">Description</a>
+      <a href="#objective">Objective</a>
+      <a href="#process">Process</a>
+      <a href="#challenges">Challenges and Solutions</a>
+      <a href="#tools">Tools and Technologies</a>
+      <a href="#value">Value Proposition</a>
+      <a href="#unique">Unique Value</a>
+      <a href="#relevance">Relevance</a>
+      <a href="#references">References</a>
+    </nav>
+
+    <article class="write-up">
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <p>People hear that a new AI model "cost hundreds of millions of dollars to train," but it is rarely clear what that money actually pays for. Is it the data? The chips? The electricity? The engineers? Before this project, I thought of training as one big event. While researching it, I found that it is really a chain of very different steps, and the cost is extremely uneven across them.</p>
+        <p>This infographic is my attempt to make that chain visible. It shows the full path from raw data to a deployed chatbot and connects each step to the resources it consumes, using real figures wherever they have been published.</p>
+      </section>
+
+      <section id="description">
+        <h2>Description</h2>
+        <p>The infographic is built as a single web page with downloadable PDF and PNG versions. It is organized into four numbered sections:</p>
+        <ol>
+          <li><strong>The Training Pipeline:</strong> a six-step flowchart (data collection, cleaning and tokenizing, pre-training, fine-tuning and alignment, evaluation and safety testing, and deployment and inference) grouped into Prepare, Train and Ship phases. Each step has a real example and a dot rating showing how heavily it uses data, compute, energy, time and people.</li>
+          <li><strong>The Four Resources Behind the Cost:</strong> a color-coded card for each resource with a definition, a headline number, and an explanation of how it affects model performance.</li>
+          <li><strong>What Real Models Cost:</strong> a bar chart of estimated training costs from $5.6M (DeepSeek-V3, final run) to $191M (Gemini Ultra), a fact sheet showing what each lab has and has not disclosed, and a breakdown of where DeepSeek-V3's compute went.</li>
+          <li><strong>Key Takeaways:</strong> five conclusions, including that pre-training used 95.6% of DeepSeek-V3's GPU-hours and that frontier training costs grew about 200,000 times between 2017 and 2023.</li>
+        </ol>
+      </section>
+
+      <section id="objective">
+        <h2>Objective</h2>
+        <p>The goal was to clearly illustrate the key steps involved in training a large language model and explain the main resource categories and their costs, in a way that a manager, investor or student without a machine learning background could follow. I also wanted to practice a different skill from my earlier artifacts: turning scattered, inconsistent research into one accurate visual.</p>
+      </section>
+
+      <section id="process">
+        <h2>Process</h2>
+        <ol>
+          <li><strong>Research.</strong> I reviewed the course resources on how LLMs work, then collected figures from primary sources: the Stanford AI Index, Meta's Llama 3.1 model card, the DeepSeek-V3 technical report, and published research on training emissions.</li>
+          <li><strong>Defining the steps.</strong> I settled on six steps because each has a clearly different resource profile. I merged tokenization into data cleaning because they use the same resources, but kept pre-training and fine-tuning separate because their costs are opposite: one is heavy on compute, the other on skilled human labelers.</li>
+          <li><strong>Choosing resource categories.</strong> I kept the four required resources (data, compute, energy, time) and added people as a gray supporting category, since human labeling and red teaming are real costs that the other four miss.</li>
+          <li><strong>Classifying evidence.</strong> I sorted every figure into three levels: published by the developer (solid bars, normal text), loosely disclosed (a hatched range bar for Claude 3.5 Sonnet's "a few $10M's"), and unofficial or not disclosed (labeled "leaked est." or shown in gray italics).</li>
+          <li><strong>Design and build.</strong> I gave each resource one fixed color used everywhere on the page, chose a chart type for each kind of relationship (flowchart for sequence, heat map for step-by-resource, bar chart for comparison, stacked bar for part-to-whole), and built it in HTML and CSS with hand-drawn SVG icons.</li>
+          <li><strong>Review.</strong> I checked every number against its source, made sure no information relies on color alone, and exported the page at 2&times; resolution for sharp printing and zooming.</li>
+        </ol>
+      </section>
+
+      <section id="challenges">
+        <h2>Challenges and Solutions</h2>
+        <p>The biggest challenge was that the data does not line up. One lab reports GPU-hours, another reports dollars, another reports nothing at all, and some of the most quoted numbers are leaks. My first idea was to convert everything into dollars, but that would have meant inventing assumptions the sources did not support. Instead, I kept each number in the units its source used and let the visual style show how reliable it is. This turned the gaps into a finding of their own: almost all of the hard data comes from open models, while the closed labs building the most expensive systems share the least.</p>
+      </section>
+
+      <section id="tools">
+        <h2>Tools and Technologies Used</h2>
+        <div class="tool-grid">
+          <div class="tool"><b>HTML5 and CSS3</b><span>Layout, grid system and charts</span></div>
+          <div class="tool"><b>SVG</b><span>Custom line icons for each step and resource</span></div>
+          <div class="tool"><b>JavaScript</b><span>Generating the pipeline cards and resource ratings</span></div>
+          <div class="tool"><b>Google Chrome</b><span>Testing and exporting the PDF and PNG versions</span></div>
+          <div class="tool"><b>GitHub and GitHub Pages</b><span>Version control and hosting</span></div>
+          <div class="tool"><b>Primary research sources</b><span>Model cards, technical reports and the AI Index</span></div>
+        </div>
+      </section>
+
+      <section id="value">
+        <h2>Value Proposition</h2>
+        <p>This artifact shows that I can research a fast-moving technical topic, judge the quality of the evidence, and present it clearly to a non-technical audience. In industry, decisions about building, buying or fine-tuning AI models depend on understanding where the costs really are. Being able to show a decision-maker that "95% of the compute goes into one step" in a single visual is often more useful than a long report.</p>
+      </section>
+
+      <section id="unique">
+        <h2>Unique Value</h2>
+        <p>Most explainers either describe the training steps or list cost figures, but not both. This infographic connects them, so a reader can see which step drives which cost. It is also transparent about uncertainty: instead of presenting every number with the same confidence, it visually separates published figures, loose disclosures and leaked estimates, and it notes that headline numbers usually cover only one final training run.</p>
+      </section>
+
+      <section id="relevance">
+        <h2>Relevance</h2>
+        <p>Training costs have become one of the main forces shaping the AI industry, from chip demand and energy use to which companies can afford to build frontier models. At the same time, efficiency gains like DeepSeek-V3's show that cost is not fixed. This artifact gives students, analysts and business leaders a grounded starting point for those conversations, and it builds directly on my earlier coursework on training data and on how neural networks learn by minimizing loss.</p>
+        <div class="callout"><p><strong>Key takeaway:</strong> training cost is mostly a compute story. Pre-training dominates compute, energy and time, while fine-tuning is cheap in compute but depends on skilled human feedback, and serving the model keeps costing money after training ends.</p></div>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <ul class="refs">
+          <li>Amodei, D. (2025, January 29). <em>On DeepSeek and export controls</em>. <a href="https://darioamodei.com/on-deepseek-and-export-controls">https://darioamodei.com/on-deepseek-and-export-controls</a></li>
+          <li>Brown, T. B., et al. (2020). Language models are few-shot learners. <em>Advances in Neural Information Processing Systems, 33</em>. <a href="https://arxiv.org/abs/2005.14165">https://arxiv.org/abs/2005.14165</a></li>
+          <li>DeepSeek-AI. (2024). <em>DeepSeek-V3 technical report</em>. arXiv. <a href="https://arxiv.org/abs/2412.19437">https://arxiv.org/abs/2412.19437</a></li>
+          <li>Meta. (2024). <em>Llama 3.1 model card</em>. <a href="https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md">https://github.com/meta-llama/llama-models/blob/main/models/llama3_1/MODEL_CARD.md</a></li>
+          <li>Ouyang, L., et al. (2022). Training language models to follow instructions with human feedback. <em>Advances in Neural Information Processing Systems, 35</em>. <a href="https://arxiv.org/abs/2203.02155">https://arxiv.org/abs/2203.02155</a></li>
+          <li>Patterson, D., et al. (2021). <em>Carbon emissions and large neural network training</em>. arXiv. <a href="https://arxiv.org/abs/2104.10350">https://arxiv.org/abs/2104.10350</a></li>
+          <li>Smith, G., Bateman, M., Gillet, R., &amp; Thanisch, E. (2023). Environmental impact of large language models. <em>Amplify, 36</em>(8). Cutter Consortium. <a href="https://www.cutter.com/article/environmental-impact-large-language-models">https://www.cutter.com/article/environmental-impact-large-language-models</a></li>
+          <li>Stanford Institute for Human-Centered Artificial Intelligence. (2024). <em>AI index report 2024</em>. <a href="https://hai.stanford.edu/ai-index/2024-ai-index-report">https://hai.stanford.edu/ai-index/2024-ai-index-report</a></li>
+          <li>Wolfram, S. (2023, February 14). <em>What is ChatGPT doing and why does it work?</em> <a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/">https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/</a></li>
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>&copy; 2026 Prathamesh Phutane</span>
+    <a href="../../#artifacts">Back to all artifacts</a>
+  </div>
+</footer>
+
+</body>
+</html>
